@@ -66,7 +66,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Flux<TransactionResponse> getTransactionsByAccountId(String accountId) {
-        return transactionRepository.findAllByBankAccountId(accountId)
+        return transactionRepository.findAllByProductId(accountId)
                 .map(TransactionMapper.INSTANCE::map);
     }
 }

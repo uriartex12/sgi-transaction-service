@@ -3,7 +3,7 @@ info:
   title: Transaction Service API
   version: 1.0.0
 servers:
-  - url: http://localhost:8082
+  - url: http://localhost:8083
 paths:
   /v1/transaction:
     get:
@@ -52,12 +52,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/{accountId}/transaction:
+  /v1/{productId}/transaction:
     get:
-      summary: Retrieve all transactions by accountId
-      operationId: getTransactionsByAccountId
+      summary: Retrieve all transactions by productId
+      operationId: getTransactionsByProductId
       parameters:
-        - name: accountId
+        - name: productId
           in: path
           required: true
           schema:
@@ -183,11 +183,11 @@ components:
     TransactionRequest:
       type: object
       required:
-        - bankAccountId
+        - productId
         - clientId
         - amount
       properties:
-        bankAccountId:
+        productId:
           type: string
         type:
           type: string
@@ -206,9 +206,9 @@ components:
       type: object
       required:
         - clientId
-        - bankAccountId
+        - productId
       properties:
-        bankAccountId:
+        productId:
           type: string
         type:
           type: string

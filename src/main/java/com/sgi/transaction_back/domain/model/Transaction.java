@@ -22,7 +22,7 @@ import java.time.Instant;
 public class Transaction {
     @Id
     private String id;
-    private String bankAccountId;
+    private String productId;
     private String type;
     @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal amount;
