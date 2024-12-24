@@ -191,7 +191,7 @@ components:
           type: string
         type:
           type: string
-          enum: [deposit,withdrawal]
+          enum: [DEPOSIT,WITHDRAWAL,PAYMENT,CHARGE]
         amount:
           type: number
           format: double
@@ -212,7 +212,7 @@ components:
           type: string
         type:
           type: string
-          enum: [deposit,withdrawal]
+          enum: [DEPOSIT,WITHDRAWAL,PAYMENT,CHARGE]
         amount:
           type: number
         clientId:

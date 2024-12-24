@@ -28,6 +28,7 @@ public class Transaction {
     private BigDecimal amount;
     private String description;
     private String clientId;
+    @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal balance;
     @CreatedDate
     private Instant createdDate;
