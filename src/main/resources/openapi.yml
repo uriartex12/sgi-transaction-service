@@ -224,9 +224,19 @@ components:
           format: double
     ErrorResponse:
       type: object
+      required:
+        - status
+        - code
+        - message
+        - timestamp
       properties:
-        error:
+        status:
+          type: int
+        code:
           type: string
         message:
           type: string
+        timestamp:
+          type: string
+          format: date-time
 

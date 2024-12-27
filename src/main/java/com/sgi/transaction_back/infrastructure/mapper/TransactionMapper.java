@@ -17,7 +17,7 @@ public interface TransactionMapper {
     TransactionResponse map(Transaction transaction);
 
     @Mapping(target = "id", ignore = true)
-    Transaction map(TransactionRequest customer, String id);
+    Transaction map(TransactionRequest customer);
 
     @Mapping(target = "type", source = "type")
     @Mapping(target = "createdDate", expression = "java(java.time.Instant.now())")
