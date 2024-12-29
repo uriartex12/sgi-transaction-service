@@ -1,9 +1,13 @@
-package com.sgi.transaction_back.infrastructure.exception;
+package com.sgi.transaction.infrastructure.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+/**
+ * Represents an API error with an HTTP status code, error code, and message.
+ * Used to standardize error responses in the application.
+ */
 @Data
 @AllArgsConstructor
 public class ApiError {

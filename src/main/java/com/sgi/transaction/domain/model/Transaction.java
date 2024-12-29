@@ -1,4 +1,4 @@
-package com.sgi.transaction_back.domain.model;
+package com.sgi.transaction.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +14,10 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+/**
+ * Represents a transaction entity in the system.
+ * This entity is mapped to the "transaction" collection in the database.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

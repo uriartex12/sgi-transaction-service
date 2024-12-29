@@ -1,13 +1,13 @@
-package com.sgi.transaction_back.application.service;
+package com.sgi.transaction.application.service;
 
-import com.sgi.transaction_back.domain.model.Transaction;
-import com.sgi.transaction_back.domain.ports.in.TransactionService;
-import com.sgi.transaction_back.domain.ports.out.TransactionRepository;
-import com.sgi.transaction_back.domain.shared.CustomError;
-import com.sgi.transaction_back.infrastructure.dto.TransactionRequest;
-import com.sgi.transaction_back.infrastructure.dto.TransactionResponse;
-import com.sgi.transaction_back.infrastructure.exception.CustomException;
-import com.sgi.transaction_back.infrastructure.mapper.TransactionMapper;
+import com.sgi.transaction.domain.model.Transaction;
+import com.sgi.transaction.domain.ports.in.TransactionService;
+import com.sgi.transaction.domain.ports.out.TransactionRepository;
+import com.sgi.transaction.domain.shared.CustomError;
+import com.sgi.transaction.infrastructure.dto.TransactionRequest;
+import com.sgi.transaction.infrastructure.dto.TransactionResponse;
+import com.sgi.transaction.infrastructure.exception.CustomException;
+import com.sgi.transaction.infrastructure.mapper.TransactionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -15,6 +15,11 @@ import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 
+/**
+ * Implementation of the {@link TransactionService} interface.
+ * Provides operations for managing transactions such as creating, updating, deleting,
+ * and retrieving transactions.
+ */
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {

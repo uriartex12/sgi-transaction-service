@@ -1,10 +1,14 @@
-package com.sgi.transaction_back.domain.shared;
+package com.sgi.transaction.domain.shared;
 
-import com.sgi.transaction_back.infrastructure.exception.ApiError;
+import com.sgi.transaction.infrastructure.exception.ApiError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+/**
+ * Enum representing custom errors for the Transaction-service application.
+ * Each constant includes an error code, message, and HTTP status for specific errors.
+ */
 @Getter
 @AllArgsConstructor
 public enum CustomError {
