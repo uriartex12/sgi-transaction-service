@@ -26,7 +26,6 @@ public interface TransactionMapper {
      * @param transaction the Transaction object to map
      * @return the mapped TransactionResponse
      */
-    @Mapping(target = "description", source = "description", defaultValue = "No description")
     @Mapping(target = "balance", source = "balance", defaultValue = "0.0")
     TransactionResponse map(Transaction transaction);
 

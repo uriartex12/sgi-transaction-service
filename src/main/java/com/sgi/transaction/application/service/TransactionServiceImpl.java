@@ -14,6 +14,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Implementation of the {@link TransactionService} interface.
@@ -28,10 +30,13 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Mono<TransactionResponse> createTransaction(Mono<TransactionRequest> transaction) {
-        return transaction.flatMap(custom ->
-                TransactionMapper.INSTANCE.map(Mono.just(custom))
-                        .flatMap(transactionRepository::save));
+        return transaction.flatMap(custom -> {
+            custom.setCommission(Objects.requireNonNullElse(custom.getCommission(), 0d));
+            return TransactionMapper.INSTANCE.map(Mono.just(custom))
+                    .flatMap(transactionRepository::save);
+        });
     }
+
 
     @Override
     public Mono<Void> deleteTransaction(String id) {
@@ -69,5 +74,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Flux<TransactionResponse> getTransactionsByAccountId(String accountId) {
         return transactionRepository.getTransactionsByAccountId(accountId);
+    }
+
+    @Override
+    public Flux<TransactionResponse> getCommissionsByProductAndPeriod(String productId, LocalDate startDate, LocalDate endDate) {
+        return transactionRepository.getCommissionsByProductAndPeriod(productId, startDate, endDate);
     }
 }

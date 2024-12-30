@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+
 /**
  * Implementation of {@link TransactionRepository} that uses {@link TransactionRepositoryJpa}
  * for database interactions. Provides reactive methods to manage transactions.
@@ -46,5 +48,10 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     public Flux<TransactionResponse> getTransactionsByAccountId(String accountId) {
         return repositoryJpa.findAllByProductId(accountId)
                 .map(TransactionMapper.INSTANCE::map);
+    }
+
+    @Override
+    public Flux<TransactionResponse> getCommissionsByProductAndPeriod(String productId, LocalDate startDate, LocalDate endDate) {
+        return repositoryJpa.findCommissionsByProductAndDateRange(productId, startDate, endDate);
     }
 }

@@ -178,6 +178,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/transaction/{productId}/commissions:
+    get:
+      summary: Retrieve commissions for a product in a given time period
+      operationId: getCommissionsByProductAndPeriod
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the product (e.g., bank account or credit product)
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description:
+            Start date of the period (format: YYYY-MM-DD)
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description:
+            End date of the period (format: YYYY-MM-DD)
+      responses:
+        '200':
+          description: List of commissions for the product within the specified period
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionResponse'
+        '404':
+          description: No commissions found for the specified product and period
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
     TransactionRequest:
@@ -195,6 +244,9 @@ components:
           type: string
           enum: [DEPOSIT,WITHDRAWAL,PAYMENT,CHARGE]
         amount:
+          type: number
+          format: double
+        commission:
           type: number
           format: double
         description:
@@ -221,8 +273,9 @@ components:
           type: number
         clientId:
           type: string
-        description:
-          type: string
+        commission:
+          type: number
+          format: double
         balance:
           type: number
           format: double

@@ -10,6 +10,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+
 /**
  * Controller to handle operations related to transactions.
  */
@@ -42,6 +44,14 @@ public class TransactionController implements V1Api {
     }
 
     @Override
+    public Mono<ResponseEntity<Flux<TransactionResponse>>> getCommissionsByProductAndPeriod(
+            String productId, LocalDate startDate, LocalDate endDate, ServerWebExchange exchange) {
+        return Mono.fromSupplier(() -> ResponseEntity.ok().body(transactionService
+                        .getCommissionsByProductAndPeriod(productId, startDate, endDate))
+        );
+    }
+
+    @Override
     public Mono<ResponseEntity<TransactionResponse>> getTransactionById(String id, ServerWebExchange exchange) {
         return transactionService.getTransactionById(id)
                 .map(transactionResponse -> ResponseEntity.ok().body(transactionResponse));
@@ -54,7 +64,8 @@ public class TransactionController implements V1Api {
     }
 
     @Override
-    public Mono<ResponseEntity<TransactionResponse>> updateTransaction(String id, Mono<TransactionRequest> transactionRequest,
+    public Mono<ResponseEntity<TransactionResponse>> updateTransaction(String id,
+                                                                       Mono<TransactionRequest> transactionRequest,
                                                                        ServerWebExchange exchange) {
         return transactionService.updateTransaction(id, transactionRequest)
                 .map(transactionResponse -> ResponseEntity.ok().body(transactionResponse));

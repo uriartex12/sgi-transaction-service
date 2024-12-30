@@ -30,6 +30,8 @@ public class Transaction {
     private String type;
     @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal amount;
+    @Field(targetType = FieldType.DECIMAL128)
+    private BigDecimal commission;
     private String description;
     private String clientId;
     private String destinationProductId;
