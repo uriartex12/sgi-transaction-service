@@ -189,6 +189,8 @@ components:
       properties:
         productId:
           type: string
+        destinationProductId:
+          type: string
         type:
           type: string
           enum: [DEPOSIT,WITHDRAWAL,PAYMENT,CHARGE]
@@ -209,6 +211,8 @@ components:
         - productId
       properties:
         productId:
+          type: string
+        destinationProductId:
           type: string
         type:
           type: string
