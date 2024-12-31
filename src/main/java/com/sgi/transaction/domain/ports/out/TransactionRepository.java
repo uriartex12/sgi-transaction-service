@@ -26,4 +26,6 @@ public interface TransactionRepository {
 
     Flux<TransactionResponse> getCommissionsByProductAndPeriod(String productId, LocalDate startDate, LocalDate endDate);
 
+    Flux<TransactionResponse> getDailyAverageBalancesForClient(String clientId, LocalDate startDate, LocalDate endDate);
+
 }

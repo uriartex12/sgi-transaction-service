@@ -25,7 +25,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     @Override
     public Mono<TransactionResponse> save(Transaction transaction) {
         return repositoryJpa.save(transaction)
-                .map(TransactionMapper.INSTANCE::map);
+                .map(TransactionMapper.INSTANCE::toTransactionResponse);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     @Override
     public Flux<TransactionResponse> findAll() {
         return repositoryJpa.findAll()
-                .map(TransactionMapper.INSTANCE::map);
+                .map(TransactionMapper.INSTANCE::toTransactionResponse);
     }
 
     @Override
@@ -47,11 +47,18 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     @Override
     public Flux<TransactionResponse> getTransactionsByAccountId(String accountId) {
         return repositoryJpa.findAllByProductId(accountId)
-                .map(TransactionMapper.INSTANCE::map);
+                .map(TransactionMapper.INSTANCE::toTransactionResponse);
     }
 
     @Override
     public Flux<TransactionResponse> getCommissionsByProductAndPeriod(String productId, LocalDate startDate, LocalDate endDate) {
-        return repositoryJpa.findCommissionsByProductAndDateRange(productId, startDate, endDate);
+        return repositoryJpa.findCommissionsByProductAndDateRange(productId, startDate, endDate)
+                .map(TransactionMapper.INSTANCE::toTransactionResponse);
+    }
+
+    @Override
+    public Flux<TransactionResponse> getDailyAverageBalancesForClient(String clientId, LocalDate startDate, LocalDate endDate) {
+        return repositoryJpa.findByClientIdAndCreatedDateBetween(clientId, startDate, endDate)
+                .map(TransactionMapper.INSTANCE::toTransactionResponse);
     }
 }

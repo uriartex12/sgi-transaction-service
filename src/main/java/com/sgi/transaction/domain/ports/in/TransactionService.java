@@ -1,5 +1,6 @@
 package com.sgi.transaction.domain.ports.in;
 
+import com.sgi.transaction.infrastructure.dto.AverageReportResponse;
 import com.sgi.transaction.infrastructure.dto.TransactionRequest;
 import com.sgi.transaction.infrastructure.dto.TransactionResponse;
 import reactor.core.publisher.Flux;
@@ -26,4 +27,8 @@ public interface TransactionService {
     Flux<TransactionResponse> getTransactionsByAccountId(String accountId);
 
     Flux<TransactionResponse> getCommissionsByProductAndPeriod(String productId, LocalDate startDate, LocalDate endDate);
+
+    Mono<AverageReportResponse> getDailyAverageBalancesForClient(String clientId, LocalDate startDate, LocalDate endDate);
 }
+
+
