@@ -11,17 +11,17 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 /**
- * GlobalExceptionHandler maneja las excepciones personalizadas en la aplicación.
- * Utiliza @ControllerAdvice para interceptar las excepciones lanzadas y generar respuestas de error adecuadas.
+ * GlobalExceptionHandler handles custom exceptions in the application.
+ * It uses @ControllerAdvice to intercept thrown exceptions and generate appropriate error responses.
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
-     * Maneja la excepción personalizada y devuelve una respuesta con el código de estado y el mensaje de error.
+     * Handles the custom exception and returns a response with the status code and error message.
      *
-     * @param ex Excepción personalizada.
-     * @return Mono que encapsula la respuesta de error.
+     * @param ex Custom exception.
+     * @return Mono encapsulating the error response.
      */
     @ExceptionHandler(CustomException.class)
     public Mono<ResponseEntity<ErrorResponse>> handleCustomException(CustomException ex) {
@@ -31,10 +31,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Crea un objeto ErrorResponse a partir de la excepción personalizada.
+     * Creates an ErrorResponse object from the custom exception.
      *
-     * @param ex Excepción personalizada.
-     * @return Un objeto ErrorResponse con los detalles del error.
+     * @param ex Custom exception.
+     * @return An ErrorResponse object with the error details.
      */
     private ErrorResponse createErrorResponse(CustomException ex) {
         LocalDateTime localDateTime = ex.getTimestamp();

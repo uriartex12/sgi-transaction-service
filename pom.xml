@@ -59,6 +59,10 @@
 			<artifactId>mapstruct</artifactId>
 			<version>${map-struct.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 		<!-- OpenApi generator dependencies -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
