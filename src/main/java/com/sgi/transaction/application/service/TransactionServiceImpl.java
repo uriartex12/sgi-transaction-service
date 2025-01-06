@@ -42,12 +42,11 @@ public class TransactionServiceImpl implements TransactionService {
         });
     }
 
-
     @Override
     public Mono<Void> deleteTransaction(String id) {
         return transactionRepository.findById(id)
-                .flatMap(transactionRepository::delete)
-                .switchIfEmpty(Mono.error(new CustomException(CustomError.E_TRANSACTION_NOT_FOUND)));
+                .switchIfEmpty(Mono.error(new CustomException(CustomError.E_TRANSACTION_NOT_FOUND)))
+                .flatMap(transactionRepository::delete);
     }
 
     @Override
