@@ -6,6 +6,9 @@ import com.sgi.transaction.infrastructure.dto.TransactionResponse;
 import com.sgi.transaction.infrastructure.mapper.TransactionMapper;
 import com.sgi.transaction.infrastructure.repository.TransactionRepositoryJpa;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -34,8 +37,9 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
-    public Flux<TransactionResponse> findAll() {
-        return repositoryJpa.findAll()
+    public Flux<TransactionResponse> findAll(String productId, String cardId, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        return repositoryJpa.findByProductIdOrCardId(productId, cardId, pageable)
                 .map(TransactionMapper.INSTANCE::toTransactionResponse);
     }
 

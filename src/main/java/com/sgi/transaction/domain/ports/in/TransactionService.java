@@ -18,7 +18,7 @@ public interface TransactionService {
 
     Mono<Void> deleteTransaction(String id);
 
-    Flux<TransactionResponse> getAllTransactions();
+    Flux<TransactionResponse> getAllTransactions(String productId, String cardId, Integer page, Integer size);
 
     Mono<TransactionResponse> getTransactionById(String id);
 

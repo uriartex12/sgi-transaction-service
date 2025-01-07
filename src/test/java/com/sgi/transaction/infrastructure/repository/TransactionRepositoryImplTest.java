@@ -10,6 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -19,6 +22,8 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -67,17 +72,22 @@ public class TransactionRepositoryImplTest {
 
     @Test
     public void testFindAll() {
+        String productId = UUID.randomUUID().toString();
+        String cardId = UUID.randomUUID().toString();
+        Pageable pageable = PageRequest.of(1, 10, Sort.by("createdDate").descending());
         Transaction transaction1 = FactoryTest.toFactoryEntityTransaction();
         Transaction transaction2 = FactoryTest.toFactoryEntityTransaction();
-        when(repositoryJpa.findAll()).thenReturn(Flux.just(transaction1, transaction2));
-        Flux<TransactionResponse> result = transactionRepository.findAll();
+
+        when(repositoryJpa.findByProductIdOrCardId(productId, cardId, pageable))
+                .thenReturn(Flux.just(transaction1, transaction2));
+        Flux<TransactionResponse> result = transactionRepository.findAll(productId, cardId, 1, 10);
         result.collectList().subscribe(responses -> {
             assertNotNull(responses);
             assertEquals(2, responses.size());
         });
-
-        verify(repositoryJpa, times(1)).findAll();
+        verify(repositoryJpa, times(1)).findByProductIdOrCardId(productId, cardId, pageable);
     }
+
 
 
     @Test

@@ -18,7 +18,7 @@ public interface TransactionRepository {
 
     Mono<Transaction> findById(String id);
 
-    Flux<TransactionResponse> findAll();
+    Flux<TransactionResponse> findAll(String productId, String cardId, Integer page, Integer size);
 
     Mono<Void> delete(Transaction transaction);
 

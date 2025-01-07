@@ -20,6 +20,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
@@ -88,13 +90,13 @@ public class TransactionServiceImplTest {
     @Test
     void getAllTransactions_shouldReturnListTransactionResponse() {
         List<TransactionResponse> transactions = FactoryTest.toFactoryListTransactionResponse(UUID.randomUUID().toString());
-        when(transactionRepository.findAll()).thenReturn(Flux.fromIterable(transactions));
-        Flux<TransactionResponse> result = transactionService.getAllTransactions();
+        when(transactionRepository.findAll(anyString(), anyString(), anyInt(), anyInt())).thenReturn(Flux.fromIterable(transactions));
+        Flux<TransactionResponse> result = transactionService.getAllTransactions(anyString(), anyString(), anyInt(), anyInt());
 
         StepVerifier.create(result)
                 .expectNextCount(1)
                 .verifyComplete();
-        verify(transactionRepository).findAll();
+        verify(transactionRepository).findAll(anyString(), anyString(), anyInt(), anyInt());
     }
 
     @Test
@@ -108,25 +110,6 @@ public class TransactionServiceImplTest {
                 .verifyComplete();
         verify(transactionRepository).findById(transactionId);
     }
-
-    /*@Test
-    void updateATransaction_shouldReturnTransactionResponse() {
-        String transactionId =  UUID.randomUUID().toString();
-        Transaction transaction = FactoryTest.toFactoryEntityTransaction();
-        transaction.setId(transactionId);
-        TransactionRequest transactionRequest = FactoryTest.toFactoryTransaction(TransactionRequest.class);
-        TransactionResponse transactionResponse = TransactionMapper.INSTANCE.toTransactionResponse(transaction);
-        when(transactionRepository.findById(transactionId)).thenReturn(Mono.just(transaction));
-        when(transactionRepository.save(transaction)).thenReturn(Mono.just(transactionResponse));
-        Mono<TransactionResponse> result = transactionService.updateTransaction(transactionId, Mono.just(transactionRequest));
-        StepVerifier.create(result)
-                .expectErrorMatches(throwable -> throwable instanceof CustomException
-                        &&
-                        throwable.getMessage().equals("Transaction not found"))
-                .verify();
-        verify(transactionRepository).findById(transactionId);
-        verify(transactionRepository).save(transaction);
-    }*/
 
     @Test
     void getTransactionsByAccountId_shouldReturnListTransactionResponse() {

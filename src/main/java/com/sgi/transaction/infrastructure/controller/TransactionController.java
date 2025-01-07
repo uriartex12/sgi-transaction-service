@@ -39,8 +39,8 @@ public class TransactionController implements V1Api {
     }
 
     @Override
-    public Mono<ResponseEntity<Flux<TransactionResponse>>> getAllTransactions(ServerWebExchange exchange) {
-        return Mono.fromSupplier(() -> ResponseEntity.ok().body(transactionService.getAllTransactions()));
+    public Mono<ResponseEntity<Flux<TransactionResponse>>> getAllTransactions(String productId, String cardId, Integer page, Integer size, ServerWebExchange exchange) {
+        return Mono.fromSupplier(() -> ResponseEntity.ok().body(transactionService.getAllTransactions(productId, cardId, page, size)));
     }
 
     @Override

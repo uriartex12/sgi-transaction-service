@@ -35,6 +35,7 @@ public class Transaction {
     private String description;
     private String clientId;
     private String destinationProductId;
+    private String cardId;
     @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal balance;
     @CreatedDate

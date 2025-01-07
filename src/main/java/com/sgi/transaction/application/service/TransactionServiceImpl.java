@@ -50,8 +50,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Flux<TransactionResponse> getAllTransactions() {
-        return transactionRepository.findAll();
+    public Flux<TransactionResponse> getAllTransactions(String productId, String cardId, Integer page, Integer size) {
+        return transactionRepository.findAll(productId, cardId, page, size);
     }
 
     @Override

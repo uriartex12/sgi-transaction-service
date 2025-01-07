@@ -9,6 +9,31 @@ paths:
     get:
       summary: Retrieve all transaction
       operationId: getAllTransactions
+      parameters:
+        - name: productId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: cardId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: The page number for pagination.
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: The number of transactions to return per page.
       responses:
         '200':
           description: List of transactions
@@ -84,7 +109,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
   /v1/transactions/{transactionId}:
     get:
       summary: Retrieve a transaction by ID
@@ -295,6 +319,8 @@ components:
         commission:
           type: number
           format: double
+        cardId:
+          type: string
         description:
           type: string
         clientId:

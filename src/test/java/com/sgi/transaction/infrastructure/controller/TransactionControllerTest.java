@@ -11,6 +11,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
@@ -24,6 +27,8 @@ import java.util.UUID;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 
@@ -93,11 +98,18 @@ public class TransactionControllerTest {
 
     @Test
     void getAllTransactions_shouldReturnFluxOfTransactionResponse() {
+        String productId = UUID.randomUUID().toString();
+        String cardId = UUID.randomUUID().toString();
         List<TransactionResponse> transactions =  FactoryTest.toFactoryListTransactionResponse(UUID.randomUUID().toString());
         Flux<TransactionResponse> transactionsFlux = Flux.fromIterable(transactions);
-        Mockito.when(transactionService.getAllTransactions()).thenReturn(transactionsFlux);
+        Mockito.when(transactionService.getAllTransactions(productId, cardId, 1, 10)).thenReturn(transactionsFlux);
         webTestClient.get()
-                .uri("/v1/transactions")
+                .uri(uriBuilder -> uriBuilder.path("/v1/transactions")
+                        .queryParam("productId", productId)
+                        .queryParam("cardId", cardId)
+                        .queryParam("page", 1)
+                        .queryParam("size", 10)
+                        .build())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(TransactionResponse.class)
