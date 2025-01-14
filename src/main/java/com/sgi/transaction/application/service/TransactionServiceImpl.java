@@ -20,6 +20,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -34,10 +35,11 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    public Mono<TransactionResponse> createTransaction(Mono<TransactionRequest> transaction) {
-        return transaction.flatMap(custom -> {
-            custom.setCommission(Objects.requireNonNullElse(custom.getCommission(), 0d));
-            return TransactionMapper.INSTANCE.map(Mono.just(custom))
+    public Mono<TransactionResponse> createTransaction(Mono<TransactionRequest> transactionRequestMono) {
+        return transactionRequestMono.flatMap(transactionRequest -> {
+            transactionRequest.setCommission(Objects.requireNonNullElse(transactionRequest.getCommission(), 0d));
+            transactionRequest.setStatus(TransactionRequest.StatusEnum.COMPLETED);
+            return TransactionMapper.INSTANCE.map(Mono.just(transactionRequest))
                     .flatMap(transactionRepository::save);
         });
     }
@@ -61,15 +63,18 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Mono<TransactionResponse> updateTransaction(String id, Mono<TransactionRequest> customer) {
+    public Mono<TransactionResponse> updateTransaction(String id, Mono<TransactionRequest> transactionRequestMono) {
         return transactionRepository.findById(id)
                 .switchIfEmpty(Mono.error(new CustomException(CustomError.E_TRANSACTION_NOT_FOUND)))
                 .flatMap(transaction ->
-                        customer.map(updatedTransaction -> {
-                            Transaction updatedEntity = TransactionMapper.INSTANCE.toTransaction(updatedTransaction);
-                            updatedEntity.setId(transaction.getId());
-                            updatedEntity.setUpdatedDate(Instant.now());
-                            return updatedEntity;
+                        transactionRequestMono.map(transactionRequest -> {
+                            Transaction updatedTransaction = TransactionMapper.INSTANCE.toTransaction(transactionRequest);
+                            updatedTransaction.setId(transaction.getId());
+                            updatedTransaction.setStatus(Optional.ofNullable(transactionRequest.getStatus())
+                                    .map(Enum::name)
+                                    .orElse(transaction.getStatus()));
+                            updatedTransaction.setUpdatedDate(Instant.now());
+                            return updatedTransaction;
                         })
                 )
                 .flatMap(transactionRepository::save);

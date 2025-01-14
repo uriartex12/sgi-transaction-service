@@ -39,7 +39,7 @@ public class FactoryTest {
     }
 
     private static TransactionRequest initializeAccount(TransactionRequest transaction) {
-        transaction.setAmount(10D);
+        transaction.setAmount(BigDecimal.TEN);
         transaction.setClientId(UUID.randomUUID().toString());
         transaction.setType(TransactionRequest.TypeEnum.DEPOSIT);
         transaction.setCommission(2D);

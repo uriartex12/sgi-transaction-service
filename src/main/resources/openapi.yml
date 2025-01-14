@@ -315,12 +315,15 @@ components:
           enum: [DEPOSIT,WITHDRAWAL,PAYMENT,CHARGE]
         amount:
           type: number
-          format: double
+          format: decimal
         commission:
           type: number
           format: double
         cardId:
           type: string
+        status:
+          type: string
+          enum: [ PENDING, COMPLETED, FAILED, CANCELLED ]
         description:
           type: string
         clientId:
@@ -334,15 +337,22 @@ components:
         - clientId
         - productId
       properties:
+        id:
+          type: string
         productId:
+          type: string
+        cardId:
           type: string
         destinationProductId:
           type: string
         type:
           type: string
-          enum: [DEPOSIT,WITHDRAWAL,PAYMENT,CHARGE]
+          enum: [DEPOSIT, WITHDRAWAL, PAYMENT, CHARGE]
         amount:
           type: number
+        status:
+          type: string
+          enum: [PENDING, COMPLETED, FAILED, CANCELLED]
         clientId:
           type: string
         commission:
