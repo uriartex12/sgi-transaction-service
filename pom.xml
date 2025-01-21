@@ -118,11 +118,11 @@
 						<configuration>
 							<excludes>
 								<exclude>**/Application*</exclude>
-								<exclude>**/infrastructure/dto/*</exclude>
-								<exclude>**/infrastructure/config/*</exclude>
-								<exclude>**/infrastructure/exception/*</exclude>
-								<exclude>**/infrastructure/mapper/*</exclude>
-								<exclude>**/domain/shared/*</exclude>
+								<exclude>**/infrastructure/dto/**</exclude>
+								<exclude>**/infrastructure/config/**</exclude>
+								<exclude>**/infrastructure/exception/**</exclude>
+								<exclude>**/infrastructure/mapper/**</exclude>
+								<exclude>**/domain/shared/**</exclude>
 								<exclude>**/domain/model/**</exclude>
 							</excludes>
 						</configuration>

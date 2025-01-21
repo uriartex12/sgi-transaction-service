@@ -312,7 +312,7 @@ components:
           type: string
         type:
           type: string
-          enum: [DEPOSIT,WITHDRAWAL,PAYMENT,CHARGE]
+          enum: [DEPOSIT, WITHDRAWAL, PAYMENT, CHARGE, DEBIT, CREDIT, PURCHASE, SALE]
         amount:
           type: number
           format: decimal
@@ -321,11 +321,29 @@ components:
           format: double
         cardId:
           type: string
+        walletId:
+          type: string
         status:
           type: string
           enum: [ PENDING, COMPLETED, FAILED, CANCELLED ]
         description:
           type: string
+        paymentMethod:
+          type: string
+        currency:
+          type: string
+        operation:
+          type: string
+        bootcoinId:
+          type: string
+        buyRate:
+          type: decimal
+        sellRate:
+          type: decimal
+        sender:
+          type: object
+        receiver:
+          type: object
         clientId:
           type: string
         balance:
@@ -347,7 +365,7 @@ components:
           type: string
         type:
           type: string
-          enum: [DEPOSIT, WITHDRAWAL, PAYMENT, CHARGE]
+          enum: [DEPOSIT, WITHDRAWAL, PAYMENT, CHARGE, DEBIT, CREDIT, PURCHASE, SALE]
         amount:
           type: number
         status:
@@ -358,6 +376,14 @@ components:
         commission:
           type: number
           format: double
+        source:
+          type: string
+        walletId:
+          type: string
+        sender:
+          type: object
+        receiver:
+          type: object
         balance:
           type: number
           format: double

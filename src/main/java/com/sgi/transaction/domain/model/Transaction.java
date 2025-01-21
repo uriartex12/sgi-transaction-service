@@ -38,12 +38,22 @@ public class Transaction {
     private String clientId;
     private String destinationProductId;
     private String cardId;
+    private String currency;
+    private String paymentMethod;
+    private String operation;
     private String status;
+    private String bootcoinId;
+    @Field(targetType = FieldType.DECIMAL128)
+    private BigDecimal buyRate;
+    @Field(targetType = FieldType.DECIMAL128)
+    private BigDecimal sellRate;
+    private String walletId;
     @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal balance;
+    private Object sender;
+    private Object receiver;
     @CreatedDate
     private Instant createdDate;
     @LastModifiedDate
     private Instant updatedDate;
-
 }
