@@ -8,6 +8,8 @@ import lombok.Builder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -25,6 +27,10 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "transaction")
+@CompoundIndexes({
+        @CompoundIndex(name = "product_card_idx", def = "{'productId' : 1, 'cardId' : 1}"),
+        @CompoundIndex(name = "created_date_idx", def = "{'createdDate' : -1}")
+})
 public class Transaction {
     @Id
     private String id;

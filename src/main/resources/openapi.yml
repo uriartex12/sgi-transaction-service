@@ -376,6 +376,10 @@ components:
         commission:
           type: number
           format: double
+        currency:
+          type: string
+        operation:
+          type: string
         source:
           type: string
         walletId:
