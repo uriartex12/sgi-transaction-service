@@ -38,9 +38,14 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Flux<TransactionResponse> findAll(String productId, String cardId, Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        return repositoryJpa.findByProductIdOrCardId(productId, cardId, pageable)
-                .map(TransactionMapper.INSTANCE::toTransactionResponse);
+        Pageable pageable = PageRequest.of(Math.max(0, page - 1), size);
+        if (productId == null && cardId == null) {
+            return repositoryJpa.findAll()
+                    .map(TransactionMapper.INSTANCE::toTransactionResponse);
+        } else {
+            return repositoryJpa.findByProductIdOrCardId(productId, cardId, pageable)
+                    .map(TransactionMapper.INSTANCE::toTransactionResponse);
+        }
     }
 
     @Override

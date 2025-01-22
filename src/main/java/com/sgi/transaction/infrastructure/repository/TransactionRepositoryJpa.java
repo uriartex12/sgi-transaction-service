@@ -21,9 +21,7 @@ public interface TransactionRepositoryJpa extends ReactiveMongoRepository<Transa
 
     Flux<Transaction> findByClientIdAndCreatedDateBetween(String clientId, LocalDate startDate, LocalDate endDate);
 
-    @Query("{ '$or': [ { 'productId': ?0 }, { 'cardId': ?1 } ] }")
     Flux<Transaction> findByProductIdOrCardId(String productId, String cardId, Pageable pageable);
-
 
 
 }

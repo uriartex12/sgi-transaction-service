@@ -9,18 +9,18 @@ import org.springframework.context.annotation.Configuration;
 import java.text.SimpleDateFormat;
 
 /**
- * Configuración global de Jackson para la serialización de objetos.
- * Se configura el ObjectMapper para que no incluya valores nulos en la serialización
- * y se agrega soporte para tipos de fecha de Java 8.
+ * Jackson global configuration for object serialization.
+ * Configures ObjectMapper to not include null values ​​in serialization
+ * and adds support for Java 8 date types.
  */
 @Configuration
 public class JacksonConfig {
 
     /**
-     * Configura el ObjectMapper para que ignore los valores nulos durante la serialización
-     * y registre el módulo JavaTimeModule para manejar tipos de fecha y hora.
+     * Configures the ObjectMapper to ignore null values ​​during serialization
+     * and registers the JavaTimeModule module to handle date and time types.
      *
-     * @return El ObjectMapper configurado.
+     * @return The configured ObjectMapper.
      */
     @Bean
     public ObjectMapper objectMapper() {
