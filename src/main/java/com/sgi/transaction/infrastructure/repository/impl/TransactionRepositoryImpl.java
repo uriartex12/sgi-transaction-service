@@ -9,11 +9,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of {@link TransactionRepository} that uses {@link TransactionRepositoryJpa}
@@ -24,6 +29,8 @@ import java.time.LocalDate;
 public class TransactionRepositoryImpl implements TransactionRepository {
 
     private final TransactionRepositoryJpa repositoryJpa;
+
+    private final ReactiveMongoTemplate mongoTemplate;
 
     @Override
     public Mono<TransactionResponse> save(Transaction transaction) {
@@ -38,14 +45,25 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     public Flux<TransactionResponse> findAll(String productId, String cardId, Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(Math.max(0, page - 1), size);
-        if (productId == null && cardId == null) {
-            return repositoryJpa.findAll()
-                    .map(TransactionMapper.INSTANCE::toTransactionResponse);
-        } else {
-            return repositoryJpa.findByProductIdOrCardId(productId, cardId, pageable)
-                    .map(TransactionMapper.INSTANCE::toTransactionResponse);
+        Pageable pageable = PageRequest.of(Math.max(0, page - 1), size, Sort.by("createdDate").descending());
+        Query query = buildQuery(productId, cardId, pageable);
+        return mongoTemplate.find(query, Transaction.class)
+                .map(TransactionMapper.INSTANCE::toTransactionResponse);
+    }
+
+    private Query buildQuery(String productId, String cardId, Pageable pageable) {
+        Criteria criteria = new Criteria();
+        if (productId != null || cardId != null) {
+            List<Criteria> criteriaList = new ArrayList<>();
+            if (productId != null) {
+                criteriaList.add(Criteria.where("productId").is(productId));
+            }
+            if (cardId != null) {
+                criteriaList.add(Criteria.where("cardId").is(cardId));
+            }
+            criteria.orOperator(criteriaList.toArray(new Criteria[0]));
         }
+        return Query.query(criteria).with(pageable);
     }
 
     @Override
